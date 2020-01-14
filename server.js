@@ -20,12 +20,12 @@ app.get('/', (request, response) => {
 
 // route definitions
 app.get('/location', locationHandler);
+app.get('/weather', weatherHandler);
 app.use('*', notFoundHandler);
 app.use(errorHandler);
 
 // route handlers
 function locationHandler(request, response) {
-  console.log(request.query);
   try {
     const geoData = require('./data/geo.json');
     const city = request.query.city;
@@ -43,6 +43,23 @@ function Location(city, geoData) {
   this.latitude = geoData[0].lat;
   this.longitude = geoData[0].lon;
 }
+
+function weatherHandler(request, response) {
+  const weatherData = require('./data/darksky.json');
+  const weatherSummaries = [];
+  console.log(weatherData);
+  weatherData.daily.data.forEach( day => {
+    weatherSummaries.push(new Weather(day))
+  })
+  response.status(200).json(weatherSummaries);
+}
+
+function Weather (day) {
+  this.forecast = day.summary;
+  this.time = new Date(day.time * 1000).toString().slice(0, 15);
+}
+
+// error handlers
 
 function notFoundHandler(request, response) {
   response.status(404).send('huh?');
