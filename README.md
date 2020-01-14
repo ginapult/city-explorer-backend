@@ -11,3 +11,5 @@ Steps:
 - User clicks "Explore!" button
 - Map is populated with location centered on long/lat of search query
 5) /weather - user enters a valid location in the input and sees data about the weather forecast for next eight days
+- Weather data is populated with forecast summaries for next eight days
+6) error handlers/routes - when user enters invalid location input, user receives an error message
